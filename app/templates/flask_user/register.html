@@ -35,10 +35,14 @@
     {% endif %}
 
     {{ render_field(form.password, tabindex=230, label="Passwort") }}
-
     {% if user_manager.enable_retype_password %}
         {{ render_field(form.retype_password, tabindex=240, label="Passwort wiederholen") }}
     {% endif %}
+    {{ render_field(form.first_name, tabindex=230, label="Vorname") }}
+    {{ render_field(form.last_name, tabindex=230, label="Nachname") }}
+    {{ render_field(form.qualification, tabindex=230) }}
+
+
 
     {{ render_submit_field(form.submit, tabindex=280, label="Abschicken") }}
 </form>
