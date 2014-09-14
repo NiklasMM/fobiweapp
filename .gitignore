@@ -1,3 +1,5 @@
 *.sublime*
 .env
 __pycache__
+*.sqlite
+

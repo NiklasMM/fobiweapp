@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+       {% for r in rooms %}
+            <div class="col-md-4">
+                <h3>{{ r.number }}</h3>
+                {% for u in r.users %}
+                    {{u.username}}<br/>
+                {% endfor %}
+            </div>
+       {% endfor %}
+    </div>
+</div>
+{% endblock %}
