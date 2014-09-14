@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        Folgende Mitglieder haben sich bisher angemeldet
+        <table class="table">
+            <thead>
+                <th>Nr.</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>E-Mail</th>
+                <th>Qualifikation</th>
+            </thead>
+            {% for user in users %}
+            <tr>
+                <th>{{ user.id - 1 }}</th>
+                <th>{{ user.first_name }}</th>
+                <th>{{ user.last_name }}</th>
+                <th>{{ user.email }}</th>
+                <th>{{ user.qualification }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+{% endblock %}
