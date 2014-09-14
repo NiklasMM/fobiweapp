@@ -35,6 +35,13 @@ class MyRegisterForm(RegisterForm):
             ('RA', 'Rettungsassistent')
         ]
     )
+    gender = SelectField(
+        "Geschlecht",
+        choices=[
+            ("f", "weiblich"),
+            ("m", "männlich")
+        ]
+    )
 
 
 def setup_db():
@@ -49,7 +56,8 @@ def setup_db():
         user1 = User(
             email=secret_config.ADMIN_EMAIL, active=True,
             password=user_manager.hash_password(secret_config.ADMIN_PW),
-            qualification="RH", first_name="Admin", last_name="Admin")
+            qualification="RH", first_name="Admin", last_name="Admin",
+            gender="m")
         user1.roles.append(Role(name='admin'))
         db.session.add(user1)
         db.session.commit()
@@ -83,6 +91,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.Text, nullable=False)
     last_name = db.Column(db.Text, nullable=False)
     confirmed_at = db.Column(db.DateTime())
+    gender = db.Column(db.Enum("m", "f"), nullable=False)
     reset_password_token = db.Column(
         db.String(100), nullable=False, default=''
     )

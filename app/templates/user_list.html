@@ -9,6 +9,7 @@
                 <th>Nr.</th>
                 <th>Vorname</th>
                 <th>Nachname</th>
+                <th>Geschlecht</th>
                 <th>E-Mail</th>
                 <th>Qualifikation</th>
             </thead>
@@ -17,6 +18,7 @@
                 <th>{{ user.id - 1 }}</th>
                 <th>{{ user.first_name }}</th>
                 <th>{{ user.last_name }}</th>
+                <th>{% if user.gender == "m" %}männlich{% else %}weiblich{% endif %}
                 <th>{{ user.email }}</th>
                 <th>{{ user.qualification }}</th>
             </tr>
