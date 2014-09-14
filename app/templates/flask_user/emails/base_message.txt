@@ -1,0 +1,7 @@
+Liebes Mitglied,
+
+{% block message %}
+{% endblock %}
+
+Bis bald, 
+Das FoBiWe Team 2014

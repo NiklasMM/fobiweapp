@@ -27,15 +27,22 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ url_for('index') }}">Fortbildungswochenende 2014</a>
+                    <a class="navbar-brand" href="{{ url_for('index') }}">Fortbildungswochenende 2014 </a>
                   </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="navbar-nav nav">
                         <!-- The pages need to activate the link using by overriding the respective block -->
                         <li {% block dashboard_active %}{% endblock %}><a href="{{ url_for('index') }}">Home</a></li>
-                        <li {% block create_active %}{% endblock %}><a href="{{ url_for('login') }}">Anmelden</a></li>
+
                         <li><a href="#">Help</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if not current_user.is_anonymous() %}
+                            <li><a href="{{ url_for('user.logout') }}?next={{ url_for('index') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">Anmelden</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

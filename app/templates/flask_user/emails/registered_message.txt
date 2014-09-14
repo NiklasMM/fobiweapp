@@ -1,0 +1,5 @@
+{% extends 'flask_user/emails/base_message.txt' %}
+
+{% block message %}
+Danke für deine Anmeldung für das FoBiWe 2014!
+{% endblock %}
