@@ -6,7 +6,7 @@ import app.secret_config as mailconfig
 
 class ConfigClass(object):
     # Configure Flask
-    SECRET_KEY = 'THIS IS AN INSECURE SECRET'
+    SECRET_KEY = mailconfig.SECRET_KEY
     SQLALCHEMY_DATABASE_URI = 'sqlite:///fobiwe.sqlite'
     CSRF_ENABLED = True
     USER_ENABLE_USERNAME = False
