@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Profil</h2>
+        <p>
+            Auf dieser Seite kannst du angeben an welchen Tagen du dabei sein wirst und ob du Vegetarier bist, etc.
+        </p>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form role="form" action="" method="post">
+                    <div class="form-group">
+                        {{ form.vegetarian }} Ich bin Vegetarier
+                    </div>
+                    <div class="form-group">
+                        <label>An welchen Tagen wirst du dabei sein?</label>
+                        <div class="checkbox">
+                            <label>
+                                {{ form.friday }} Freitag
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                            {{ form.saturday }} Samstag
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                            {{ form.sunday }} Sonntag
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Wenn du nicht selbstständig anreist, wird dir ein Platz in einem MTW reserviert.</label>
+                        <div class="checkbox">
+                            <label>
+                                {{ form.own_car }} Ich reise selbstständig an
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">Abschicken</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

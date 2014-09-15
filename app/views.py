@@ -1,11 +1,12 @@
-from flask import render_template, request
-from flask.ext.user import login_required, roles_required
+from flask import render_template, request, redirect
+from flask.ext.user import login_required, roles_required, current_user
 from app import app
 from app import babel
 from app.db import User
 from app.secret_config import ADMIN_EMAIL
 from app.db import db, Room
-
+from flask.ext.wtf import Form
+from wtforms import BooleanField
 
 @babel.localeselector
 def get_locale():
@@ -40,3 +41,34 @@ def rooms():
 def user_list():
     userlist = User.query.filter(User.email != ADMIN_EMAIL).all()
     return render_template("user_list.html", users=userlist)
+
+
+class ProfileForm(Form):
+    vegetarian = BooleanField('vegetarian', default=False)
+    friday = BooleanField('Freitag', default=True)
+    saturday = BooleanField('Samstag', default=True)
+    sunday = BooleanField('Sonntag', default=True)
+    own_car = BooleanField("own_car", default=False)
+
+
+@app.route("/profile", methods = ['GET', 'POST'])
+@login_required
+def profile():
+    if request.method == "GET":
+        form = ProfileForm()
+        form.friday.data = current_user.friday
+        form.sunday.data = current_user.sunday
+        form.saturday.data = current_user.saturday
+        form.own_car.data = current_user.own_car
+        form.vegetarian.data = current_user.vegetarian
+        return render_template("profile.html", form=form)
+    if request.method == "POST":
+        current_user.vegetarian = "vegetarian" in request.form
+        current_user.friday = "friday" in request.form
+        current_user.saturday = "saturday" in request.form
+        current_user.sunday = "sunday" in request.form
+        current_user.own_car = "own_car" in request.form
+        db.session.add(current_user)
+        db.session.commit()
+        print(current_user.vegetarian)
+        return redirect(request.path)

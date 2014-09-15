@@ -2,7 +2,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.user import UserManager, UserMixin, SQLAlchemyAdapter
 from flask.ext.babel import Babel
 from flask.ext.user.forms import RegisterForm
-from wtforms import validators
+from wtforms import validators, ValidationError
 from wtforms import StringField, SelectField
 from app import secret_config
 
@@ -43,11 +43,15 @@ class MyRegisterForm(RegisterForm):
         ]
     )
 
+def my_password_validator(form, field):
+    password = field.data
+    if len(password) < 8:
+        raise ValidationError('Das Passwort muss mindestens 8 Zeichen lang sein!')
 
 def setup_db():
     # Setup Flask-User
     db_adapter = SQLAlchemyAdapter(db, User)
-    user_manager = UserManager(db_adapter, app, register_form=MyRegisterForm)  # noqa
+    user_manager = UserManager(db_adapter, app, register_form=MyRegisterForm, password_validator=my_password_validator)
 
     db.create_all()
 
@@ -100,6 +104,15 @@ class User(db.Model, UserMixin):
         'Role', secondary=user_roles,
         backref=db.backref('users', lazy='dynamic')
     )
+
+    # additional info given in profile
+    vegetarian = db.Column(db.Boolean, default=False)
+    friday = db.Column(db.Boolean, default=True)
+    saturday = db.Column(db.Boolean, default=True)
+    sunday = db.Column(db.Boolean, default=True)
+    own_car = db.Column(db.Boolean, default=False)
+
+    comment = db.Column(db.Text)
 
 
 class Room(db.Model):
