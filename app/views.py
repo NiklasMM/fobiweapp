@@ -6,7 +6,7 @@ from app.db import User
 from app.secret_config import ADMIN_EMAIL
 from app.db import db, Room
 from flask.ext.wtf import Form
-from wtforms import BooleanField
+from wtforms import BooleanField, TextAreaField
 
 
 @babel.localeselector
@@ -50,6 +50,7 @@ class ProfileForm(Form):
     saturday = BooleanField('Samstag', default=True)
     sunday = BooleanField('Sonntag', default=True)
     own_car = BooleanField("own_car", default=False)
+    comment = TextAreaField("text")
 
 
 @app.route("/profile", methods=['GET', 'POST'])
@@ -62,7 +63,7 @@ def profile():
         form.saturday.data = current_user.saturday
         form.own_car.data = current_user.own_car
         form.vegetarian.data = current_user.vegetarian
-
+        form.comment.data = current_user.comment
         if "success" in request.args:
             success = True
         else:
@@ -75,6 +76,7 @@ def profile():
         current_user.saturday = "saturday" in request.form
         current_user.sunday = "sunday" in request.form
         current_user.own_car = "own_car" in request.form
+        current_user.comment = request.form["comment"]
         db.session.add(current_user)
         db.session.commit()
         print(current_user.vegetarian)
