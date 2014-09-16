@@ -1,9 +1,14 @@
 {% extends "base.html" %}
-
+{% block profile_active %}
+    class="active"
+{% endblock %}
 {% block content %}
 <div class="row">
     <div class="col-md-12">
         <h2>Profil</h2>
+        {% if success %}
+        <div class="alert alert-success" role="alert">Danke! Deine Änderungen wurden gespeichert!</div>
+        {% endif %}
         <p>
             Auf dieser Seite kannst du angeben an welchen Tagen du dabei sein wirst und ob du Vegetarier bist, etc.
         </p>

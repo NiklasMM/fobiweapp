@@ -4,15 +4,22 @@
 <div class="row">
     <div class="col-md-12">
         <h2>Willkommen auf der Organisationsseite für das FoBiWe 2014</h2>
-        <p>
-            Über diese Seite werden wir dieses Jahr die Anmeldungen und Zimmereinteilungen durchführen.
-        </p>
+
         <div class="row">
-            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <p>
+                    Über diese Seite werden wir dieses Jahr die Anmeldungen und Zimmereinteilungen durchführen.
+                </p>
+                {% if current_user.is_anonymous() %}
+                <p>
+                        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg" role="button">Anmelden</a>
+                </p>
+                {% endif %}
+            </div>
             <div class="col-md-8">
                 <img class="img-responsive img-rounded" src="{{ url_for('static', filename='img/liborihof.jpg') }}"/>
             </div>
-            <div class="col-md-2"></div>
+
         </div>
 
 </div>

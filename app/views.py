@@ -8,6 +8,7 @@ from app.db import db, Room
 from flask.ext.wtf import Form
 from wtforms import BooleanField
 
+
 @babel.localeselector
 def get_locale():
     translations = [
@@ -51,7 +52,7 @@ class ProfileForm(Form):
     own_car = BooleanField("own_car", default=False)
 
 
-@app.route("/profile", methods = ['GET', 'POST'])
+@app.route("/profile", methods=['GET', 'POST'])
 @login_required
 def profile():
     if request.method == "GET":
@@ -61,7 +62,13 @@ def profile():
         form.saturday.data = current_user.saturday
         form.own_car.data = current_user.own_car
         form.vegetarian.data = current_user.vegetarian
-        return render_template("profile.html", form=form)
+
+        if "success" in request.args:
+            success = True
+        else:
+            success = False
+
+        return render_template("profile.html", form=form, success=success)
     if request.method == "POST":
         current_user.vegetarian = "vegetarian" in request.form
         current_user.friday = "friday" in request.form
@@ -71,4 +78,4 @@ def profile():
         db.session.add(current_user)
         db.session.commit()
         print(current_user.vegetarian)
-        return redirect(request.path)
+        return redirect("{0}?success=t".format(request.path))
