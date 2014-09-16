@@ -10,6 +10,12 @@
                 <p>
                     Über diese Seite werden wir dieses Jahr die Anmeldungen und Zimmereinteilungen durchführen.
                 </p>
+                <p>
+                    Derzeit könnt ihr euch erst einmal anmelden. Die weiteren Funktionen werden dann nach und nach freigeschaltet. Darüber werdet ihr dann jeweils nochmal per Mail informiert.
+                </p>
+                <p>
+                    Falls ihr Probleme mit der Benutzung dieser Seite habt, meldet euch bitte direkt bei Niklas (E-mail Adresse findet ihr in der Mitgliederliste).
+                </p>
                 {% if current_user.is_anonymous() %}
                 <p>
                         <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg" role="button">Anmelden</a>
