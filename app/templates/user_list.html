@@ -14,15 +14,25 @@
                 <th>Geschlecht</th>
                 <th>E-Mail</th>
                 <th>Qualifikation</th>
+                <th>Tage</th>
+                <th>Eigenes Auto</th>
+                <th>Vegetarier</th>
             </thead>
             {% for user in users %}
             <tr>
-                <th>{{ user.id - 1 }}</th>
-                <th>{{ user.first_name }}</th>
-                <th>{{ user.last_name }}</th>
-                <th>{% if user.gender == "m" %}männlich{% else %}weiblich{% endif %}
-                <th>{{ user.email }}</th>
-                <th>{{ user.qualification }}</th>
+                <td>{{ user.id - 1 }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{% if user.gender == "m" %}männlich{% else %}weiblich{% endif %}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.qualification }}</td>
+                <td>
+                    {% if user.friday %}X{% else %}-{% endif %}
+                    {% if user.saturday %}X{% else %}-{% endif %}
+                    {% if user.sunday %}X{% else %}-{% endif %}
+                </td>
+                <td>{% if user.own_car %}<span class="label label-success">Ja</span>{% else %}<span class="label label-danger">Nein</span>{% endif %}</td>
+                <td>{% if user.vegetarian %}<span class="label label-success">Ja</span>{% else %}<span class="label label-danger">Nein</span>{% endif %}</td>
             </tr>
             {% endfor %}
         </table>
