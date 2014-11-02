@@ -118,3 +118,28 @@ def profile():
         db.session.commit()
         print(current_user.vegetarian)
         return redirect("{0}?success=t".format(request.path))
+
+
+@app.route("/rooms/manage", methods=['GET', 'POST'])
+@roles_required("admin")
+def room_list():
+    if request.method == "GET":
+        return render_template("room_list.html", rooms=Room.query.all())
+    if request.method == "POST":
+        try:
+            new_room = Room()
+            new_room.number = int(request.form["room-number"])
+            new_room.capacity = int(request.form["room-capacity"])
+            db.session.add(new_room)
+            db.session.commit()
+        except ValueError:
+            pass
+        return redirect(url_for("room_list"))
+
+@app.route("/rooms/<room_id>/delete")
+@roles_required("admin")
+def delete_room(room_id):
+    room = Room.query.get_or_404(int(room_id))
+    db.session.delete(room)
+    db.session.commit()
+    return redirect(url_for("room_list"))
