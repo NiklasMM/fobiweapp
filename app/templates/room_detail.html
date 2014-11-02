@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <p>
+            Hier kannst du die Belegung für Zimmer {{ room.number }} ändern. Bitte trage nur Änderungen ein, die vorher mit den betroffenen Personen abgesprochen wurden.
+        </p>
+       <form role="form" action="" method="post">
+            {% for i in range(room.capacity) %}
+            <div class="form-group">
+            <label for="bed-{{ i }}">Bett {{ i + 1}}</label>
+           <select name="bed-{{ i }}" class="form-control">
+                <option value="-1" {% if assigned_users[i] == -1 %}selected="selected"{% endif %}>- Frei - </option>
+                {% for u in unassigned_users %}
+                    <option value="{{ u.id }}" {% if assigned_users[i] == u.id %}selected="selected"{% endif %}>{{ u.first_name }} {{ u.last_name }}</option>
+                {% endfor %}
+            </select>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-default">Änderungen speichern</button>
+       </form>
+    </div>
+</div>
+{% endblock %}

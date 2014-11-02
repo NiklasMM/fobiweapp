@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 from flask.ext.user import login_required, roles_required, current_user
 from app import app
 from app import babel
@@ -33,8 +33,45 @@ def login():
 def rooms():
     s = db.session
     rooms = s.query(Room).all()
+    users = User.query.filter(User.email != ADMIN_EMAIL).all()
     print(rooms)
-    return render_template("rooms.html", rooms=rooms)
+    return render_template("rooms.html", rooms=rooms, users=users)
+
+
+@app.route("/rooms/<room_id>", methods=['GET', 'POST'])
+def room_detail(room_id):
+    room = Room.query.get_or_404(int(room_id))
+    if request.method == "GET":
+        users = User.query.filter(
+            User.email != ADMIN_EMAIL
+        ).all()
+        room_users = User.query.filter(
+            User.room == room, User.email != ADMIN_EMAIL
+        ).all()
+
+        assigned_users = [-1 for i in range(room.capacity)]
+        for i, u in enumerate(room_users):
+            assigned_users[i] = u.id
+
+        return render_template(
+            "room_detail.html", room=room, unassigned_users=users,
+            assigned_users=assigned_users)
+    if request.method == "POST":
+        # first unassign all users
+        old_users = User.query.filter(
+            User.room == room, User.email != ADMIN_EMAIL
+        ).all()
+        for u in old_users:
+            u.room = None
+            db.session.add(u)
+        for bed, user in request.form.items():
+            if int(user) != -1:
+                u = User.query.get(int(user))
+                u.room = room
+                db.session.add(u)
+        db.session.commit()
+        return redirect(url_for("room_detail", room_id=room_id))
+
 
 
 @app.route("/user_list")
