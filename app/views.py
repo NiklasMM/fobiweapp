@@ -29,7 +29,7 @@ def login():
 
 
 @app.route("/rooms")
-#@login_required
+@login_required
 def rooms():
     s = db.session
     rooms = s.query(Room).all()
@@ -39,6 +39,7 @@ def rooms():
 
 
 @app.route("/rooms/<room_id>", methods=['GET', 'POST'])
+@login_required
 def room_detail(room_id):
     room = Room.query.get_or_404(int(room_id))
     if request.method == "GET":
@@ -70,7 +71,7 @@ def room_detail(room_id):
                 u.room = room
                 db.session.add(u)
         db.session.commit()
-        return redirect(url_for("room_detail", room_id=room_id))
+        return redirect(url_for("rooms"))
 
 
 
