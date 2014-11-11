@@ -45,7 +45,7 @@ def room_detail(room_id):
     if request.method == "GET":
         users = User.query.filter(
             User.email != ADMIN_EMAIL
-        ).all()
+        ).order_by(User.first_name).all()
         room_users = User.query.filter(
             User.room == room, User.email != ADMIN_EMAIL
         ).all()
